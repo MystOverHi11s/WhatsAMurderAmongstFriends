@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What's A Murder Amongst Friends</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&amp;family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#1a1612;
+      --ink:#efe7d8;
+      --accent:#6b4a35;
+      --accent-2:#8b6a52;
+      --panel:#241f1b;
+      --muted:#c7b99f;
+      --ok:#8fbf8a; --warn:#ffb74d; --error:#e57373;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:var(--bg);
+      color:var(--ink); font-family:"Crimson Text", Garamond, "Times New Roman", serif;
+      line-height:1.6;
+      background-image:url('https://www.transparenttextures.com/patterns/dark-wood.png');
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:40px 20px 80px}
+    .title{text-align:center; margin:0 0 20px;}
+    .title h1{font-size:clamp(30px, 6vw, 52px); font-weight:700; font-family:"Cinzel", serif; letter-spacing:.06em; color:var(--ink); text-shadow:0 0 10px rgba(255,255,255,.06)}
+    .subtitle{text-align:center; font-style:italic; color:var(--muted); margin-bottom:18px}
+    .tabs{display:flex; justify-content:center; gap:12px; margin-bottom:18px}
+    .tab{padding:10px 18px; cursor:pointer; border-radius:8px; font-family:"Cinzel", serif; font-size:15px; border:2px solid var(--accent); background:linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.25)); color:var(--ink)}
+    .tab.active{background:linear-gradient(180deg,var(--accent),var(--accent-2)); color:#fff; box-shadow:0 6px 18px rgba(0,0,0,.6)}
+    .frame{background:linear-gradient(180deg, rgba(10,8,6,.7), rgba(20,18,16,.8)); border:2px solid rgba(255,255,255,.02); padding:22px; border-radius:18px; box-shadow:0 20px 40px rgba(0,0,0,.7), inset 0 0 40px rgba(255,255,255,.02)}
+    .card{background:linear-gradient(180deg, rgba(20,18,16,.45), rgba(10,8,6,.35)); border:1px solid rgba(120,90,65,.12); border-radius:14px; padding:18px; margin-bottom:18px; color:var(--ink)}
+    .card h3{font-family:"Cinzel", serif; margin:0 0 8px; font-size:18px}
+    label{font-family:"Cinzel", serif; font-size:14px; color:var(--muted); display:block; margin-bottom:6px}
+    input, textarea, select{width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(120,90,65,.18); background:#171412; color:var(--ink); font-family:"Crimson Text", serif; font-size:15px}
+    textarea{min-height:120px; resize:vertical}
+    .btn{display:inline-block; padding:9px 14px; border-radius:999px; cursor:pointer; border:2px solid var(--accent); background:transparent; font-family:"Cinzel", serif; font-size:14px; color:var(--ink);}
+    .btn.primary{background:linear-gradient(180deg,var(--accent),var(--accent-2)); color:#fff}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.warn{border-color:var(--warn); color:var(--warn)}
+    .actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:10px}
+    .character-view{white-space:pre-wrap; font-size:16px}
+    .muted{color:var(--muted); font-size:14px}
+    .footer{margin-top:24px; text-align:center; color:var(--muted); font-size:13px; font-style:italic}
+    .small{font-size:13px; color:var(--muted)}
+    .grid{display:grid; gap:12px}
+    @media(min-width:900px){.grid.cols-2{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body><script id="__embedded_data__">window.__EMBEDDED_DATA__ = {"adminPassword":"ADMIN","characters":[{"id":"leon-ligamen","name":"Leon Ligamen","profession":"Journalist","age":"29","bloodType":"AB-","personality":"Inquisitive, Persistent, Observant","background":"Known for uncovering scandals in high society. Has a reputation for being relentless in pursuit of a story. You are dedicated to your career and will do anything to prove yourself worthy of your title of journalist. You are often found eavesdropping in on any conversation you can, your latest contributions to media have been highly accredited. ","intent":"Share this information with nobody.\nSeeking the next big story that could make your career, you will arrive to the manor with a secret selfish intent. You want to help and be of use, but this scandal, this secret could make you rich, you are determined to collect as much information as possible.","password":"Shovel"},{"id":"magnus-flemming","name":"Magnus Flemming","profession":"Doctor","age":"35","bloodType":"B-","personality":"Compassionate, Methodical, Composed","background":"Renowned physician with pioneer in surgery. You have treated many influential figures, most notably the late Lady Belvedere you were the secondary surgeon on the operation that failed to save his life, and are known and revered for your craft. Most days you are found at the operating table whirring away at another damaged soul, bringing them back to health. You dedicate your life to rescuing others and researching all thing anatomy.","intent":"Share this information with nobody.\nYou will arrive to the Manor with the purest intent, the guilt of not being able to save Lady Belvedere haunts you, you will do anything to help the family out.","password":"Kindred"},{"id":"allistair-crowley","name":"Alistair Crowley","profession":"Occult Scholar","age":"35","bloodType":"O-","personality":"Mysterious, Cryptic, Intense","background":"Expert in esoteric traditions and ancient rituals. Has travelled extensively in search of occult knowledge, you often carry and grimoire filled with crossed out banishment rites, each failure driving you deeper into obsession. Your history teaching occult history has filled your mind with the knowledge of everything whimsical and magical. You are fascinated by everything \"otherworldly\", you are now determined to cast your name in bronze by performing a rite that is proven to work.","intent":"Share this information with nobody.\nYou will arrive the Manor with a dark intent, you are determined to prove your life and work worthy of the dedication it has taken. You will spend the night secretly trying to ensure that the ritual takes place successfully.","password":"Rosemary"},{"id":"george-haney","name":"George Haney","profession":"Groundskeeper","age":"62","bloodType":"A+","personality":"Observant, Resourceful, Attentive","background":"Has worked on the estate for decades. Knows every hidden corner and secret passage, you attention to detail and connection to local growers show the dedication to your craft and your determined attitude to have your work seen and appreciated. You know every part of the garden inside out, well, at least you think you do. Your old age is slowly starting to catch up with you, slowly getting the better of you as the days blur together and your memories darken and fade.","intent":"You share the same goal as the other staff member: Raimond Vinnum & Martha Islington.\nYou know your work has never truly been appreciated or valued by the Belvedere family, you pour so much love into your work but alas, it is never truly seen. Your secret goal will be to ensure that your names are written in the deed to guarantee a prosperous future for yourselves.\n\n(More detail will be shared closer to the date on exactly how you will do this)","password":"Apricity"},{"id":"countess-elizabeth-belvedere","name":"Countess Elizabeth Belvedere","profession":"Countess","age":"36","bloodType":"A-","personality":"Elegant, Calculating, Charming","background":"Wealthy and with connections throughout high society. Known for her lavish parties and sharp wit, you are the Countess Belvedere. Your mother died during surgery only a few years ago and you swear the pain and heartbreak killed your father. You carry the Belvedere secret, heavy on your shoulders, You know that the date crawls ever closer to when a sacrifice will be needed, the death of your parents means that you are the soul the demon will come to claim.","intent":"Share this information with only your sibling: Kristoff Rana (Will).\nThe demon requires a sacrifice, and a blood connection to the Belvedere name is not necessarily needed. You will spend the night attempting to stop the ritual but you MUST find out who would be the most suiting sacrifice if the night calls for it.","password":"Beauty"},{"id":"raimond-vinum","name":"Raimond Vinum","profession":"Sommelier","age":"50","bloodType":"O-","personality":"Discerning, Patient, Perceptive","background":"World-renowned wine expert with an impeccable palate. Has served royalty and celebrities.","intent":"You share the same goal as the other staff member: George Haney & Martha Islington.\nYou know your work has never truly been appreciated or valued by the Belvedere family, you pour so much love into your work but alas, it is never truly seen. Your secret goal will be to ensure that your names are written in the deed to guarantee a prosperous future for yourselves.\n\n(More detail will be shared closer to the date on exactly how you will do this)","password":"Green"},{"id":"agnes-horus","name":"Agnes Horus","profession":"Botanist","age":"36","bloodType":"AB+","personality":"Curious, Meticulous, Independent","background":"Expert in poisonous plants and their antidotes. Has published several controversial papers, your contributions and works are highly valued by the community, your name is well known in the world of plants. Often found carrying and sprinkling around a packet of wildflower seeds, your dedication and love for plants over humans makes you an eclectic and whimsical yet serious individual. You know the value of your work and won't let anyone change how you lead your life.","intent":"Share this information with nobody.\nYou will arrive to the Manor with the purest intent. You are determined to help the Belvedere family in the best way you can to stop this ritual.","password":"Euler'sIdentity"},{"id":"edwin-kepler","name":"Edwin Kepler","profession":"Astronomer","age":"45","bloodType":"O-","personality":"Analytical, Focused, Visionary","background":"A prodigy who charted comets before you could ride a bicycle, Your brilliance earned yourself tenure at Cambridge by 25 and a reputation for madness by 30. Your life is dedicated to the stars. You have studied every detail of the galaxies that paint the night sky. You spend many of your nights stuck to your telescopes, jotting down what you can see, down to every anomaly. You are seen as odd and quiet but people know your knowledge and intelligence is vast.","intent":"Share this information with nobody.\nYou will arrive to the Manor with a selfish intent. You are determined to use this to your advantage to summon the demon for your own benefit, you will use your knowledge of the stars to change the ritual and summon a demon for your own uses.\n\n(More detail will be shared closer to the date on exactly how you will do this)","password":"archangel"},{"id":"wren-harari","name":"Wren Harari","profession":"Historian","age":"32","bloodType":"A+","personality":"Methodical, Insightful, Reserved","background":"Born into a family of academics, You grew up surrounded by dusty tomes and unsolved mysteries. Your parents disappearance during an\narchaeological dig left you obsessed with uncovering hidden truths. Now a cold but brilliant researcher, she specializes in documenting forgotten tragedies, especially those involving \"accidental\" deaths, contributing greatly to works across hundreds of libraries.","intent":"Share this information with nobody.\nYou will arrive to the Manor with the purest intent, the opportunity to visit such a historical building and work with such a revered family ensures you want to help stop the ritual as quickly as possible.","password":"harari"},{"id":"martha-islington","name":"Martha Islington","profession":"Lady Maid","age":"65","bloodType":"O+","personality":"Discreet, Observant, Adaptable","background":"Knows more secrets than anyone suspects, you have worked for the Belvedere family for years now, your life is dedicated to caring and looking after the family. You have worked tirelessly day in and day out to ensure that the Belvedere needs are served. You carry the Belvedere secret with a heavy weight, knowing that Lady Belvedere will be taken by the demon if the ritual is not stopped.","intent":"You share the same goal as the other staff member: Raimond Vinnum (Harry) & George Haney (Owen).\nYou know your work has never truly been appreciated or valued by the Belvedere family, you pour so much love into your work but alas, it is never truly seen. Your secret goal will be to ensure that your names are written in the deed to guarantee a prosperous future for yourselves.\n\n(More detail will be shared closer to the date on exactly how you will do this)","password":"Mirror"},{"id":"kristoff-rana","name":"Kristoff Rana","profession":"The Artist","age":"33","bloodType":"AB-","personality":"Passionate, Temperamental, Creative","background":"You were adopted by the Belvedere family at a young age, the passing of your parents connects you deeply to the Rana name, hence your determination to keep it. Your talent of artwork has been something you have grown to nurture and use to your advantage, being paid to draw and craft portraits of very notable figures. The Lady Belvedere adored you and your work but the Lord Belvedere never approved. Once Lady Belvedere passed away through complications during surgery and the Lord followed after due to  grief and heartbreak, it was then that the Countess Belvedere chose to sign over 40% of the lands to you, in exchange for your works to cover the walls of the Manor.","intent":"Share this information with only your sibling: Kristoff Rana (Will).\nThe demon requires a sacrifice, and a blood connection to the Belvedere name is not necessarily needed. You will spend the night attempting to stop the ritual but you MUST find out who would be the most suiting sacrifice if the night calls for it.","password":"Swift"}],"event":{"date":"31-01-26 > 03-02-06","story":"On a night of howling wind and lashing rain in February of 1695, the first Lord Belvedere, gaunt and desperate, faced the final failure of his ancestral lands. Driven by a hunger that gnawed deeper than mere want, he sought forbidden counsel amongst occult scholars who whispered of a ritual, a profane summons to forces beyond mortal ken. In his despair, the Lord, a man of reason now unmoored, blindly performed the archaic rite.\n\nFrom the shimmering air and the scent of ozone, a presence coalesced, a demon of sleek and terrible majesty. A bargain was struck: boundless abundance for the withered fields, in exchange for a single soul, to be claimed in fifty years' time. The Lord, in his mortal short-sightedness, agreed. The farm did indeed bloom with unnatural vigour, and the House of Belvedere prospered, its dark patron forgotten.\n\nA half-century later, on an identical tempestuous night, the debt was called. The now-aged Lord, surrounded by the wealth his pact had wrought, sought to cheat his creditor. He secreted his family away and stood alone in the grand hall, a foolish, defiant figure against the ancient dark. The demon returned, and its wrath was a physical blow. Enraged by this betrayal, it did not merely claim the Lord’s life. In a cataclysm of shattered essence, the demon fractured its own soul, splintering into five spectral shards. These fragments flew like malevolent shrapnel, embedding themselves into the very fabric of the estates. Thus, the demon became a permanent, watchful tenant, its consciousness a pervasive stain upon Belvedere House, ensuring its gaze would forever fall upon the lineage it owned, and that no future generation could ever hope to be free.","rules":"Stay in character throughout the event\nShare information only as your character would\nDo not reveal your secret objectives to others, unless told otherwise\nDress as your Victorian profession would (Costumes highly encouraged)\nHave fun!","bring":"All critical props and knowledge will be provided to you the night before the event to allow you to get familiar.\nClothes for 3 nights\nLinen and Towels are provided"},"payments":{"date":"10-10-25 then 20-12-25","amount":"£48 then £100"}};</script>
+  <div class="wrap">
+    <header class="title">
+      <h1>What's A Murder Amongst Friends</h1>
+      <div class="subtitle">A Victorian dossier of suspects — ink, secrets, and embarrassment of fortune</div>
+    </header>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="charactersTab">Characters</button>
+      <button class="tab" data-tab="eventTab">Event Details</button>
+      <button class="tab" data-tab="paymentsTab">Payments</button>
+    </nav>
+
+    <main class="frame">
+      <!-- Characters Tab -->
+      <section id="charactersTab" class="tabContent">
+        <div class="card">
+          <h3>Unlock Dossier</h3>
+          <label for="charPass">Enter Password</label>
+          <input id="charPass" type="password" placeholder="Enter a character's password or ADMIN" autocomplete="off">
+          <div class="actions">
+            <button class="btn primary" id="btnView">Unlock</button>
+            <button class="btn" id="btnClear">Clear</button>
+          </div>
+          <div id="viewMsg" class="small" style="margin-top: 10px;"></div>
+        </div>
+
+        <div id="characterCard" class="card">
+          <h3>Dossier</h3>
+          <div id="characterView" class="character-view small">Locked. Enter a valid password to view details.</div>
+        </div>
+
+        <!-- Admin Panel appears when ADMIN unlocked -->
+        <div id="adminPanel">
+          <div class="card">
+            <h3>Admin Panel</h3>
+            <label for="adminPassNew">Change Admin Password</label>
+            <input id="adminPassNew" type="password" placeholder="New Admin password">
+            <div class="actions">
+              <button class="btn" id="btnSetAdminPass">Update Admin Password</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Characters</h3>
+            <label for="characterSelect">Select Character to Edit</label>
+            <select id="characterSelect" class="character-select"><option value="leon-ligamen">Leon Ligamen — Journalist</option><option value="magnus-flemming">Magnus Flemming — Doctor</option><option value="allistair-crowley">Alistair Crowley — Occult Scholar</option><option value="george-haney">George Haney — Groundskeeper</option><option value="countess-elizabeth-belvedere">Countess Elizabeth Belvedere — Countess</option><option value="raimond-vinum">Raimond Vinum — Sommelier</option><option value="agnes-horus">Agnes Horus — Botanist</option><option value="edwin-kepler">Edwin Kepler — Astronomer</option><option value="wren-harari">Wren Harari — Historian</option><option value="martha-islington">Martha Islington — Lady Maid</option><option value="kristoff-rana">Kristoff Rana — The Artist</option></select>
+            <div id="charactersEditor">
+          <div class="grid">
+            <div>
+              <label>Name</label>
+              <input data-field="name" value="Leon Ligamen">
+            </div>
+            <div>
+              <label>Profession</label>
+              <input data-field="profession" value="Journalist">
+            </div>
+            <div>
+              <label>Age</label>
+              <input data-field="age" value="29" placeholder="e.g., 36">
+            </div>
+            <div>
+              <label>Blood Type</label>
+              <input data-field="bloodType" value="AB-" placeholder="e.g., O+">
+            </div>
+            <div>
+              <label>Personality</label>
+              <textarea data-field="personality" placeholder="Short descriptors...">Inquisitive, Persistent, Observant</textarea>
+            </div>
+            <div>
+              <label>Background</label>
+              <textarea data-field="background" placeholder="Key history...">Known for uncovering scandals in high society. Has a reputation for being relentless in pursuit of a story. You are dedicated to your career and will do anything to prove yourself worthy of your title of journalist. You are often found eavesdropping in on any conversation you can, your latest contributions to media have been highly accredited. </textarea>
+            </div>
+            <div>
+              <label>Intent</label>
+              <textarea data-field="intent" placeholder="Motive, secrets...">Share this information with nobody.
+Seeking the next big story that could make your career, you will arrive to the manor with a secret selfish intent. You want to help and be of use, but this scandal, this secret could make you rich, you are determined to collect as much information as possible.</textarea>
+            </div>
+            <div>
+              <label>Viewer Password</label>
+              <input data-field="password" value="Shovel" placeholder="password to view this character">
+            </div>
+          </div>
+        </div>
+          </div>
+
+          <div class="card">
+            <h3>Event Details (Admin)</h3>
+            <div id="eventEditor">
+          <div class="grid">
+            <div>
+              <label>Event Date</label>
+              <input id="evt_date" value="31-01-26 &gt; 03-02-06" placeholder="YYYY-MM-DD">
+            </div>
+            <div>
+              <label>Story</label>
+              <textarea id="evt_story">On a night of howling wind and lashing rain in February of 1695, the first Lord Belvedere, gaunt and desperate, faced the final failure of his ancestral lands. Driven by a hunger that gnawed deeper than mere want, he sought forbidden counsel amongst occult scholars who whispered of a ritual, a profane summons to forces beyond mortal ken. In his despair, the Lord, a man of reason now unmoored, blindly performed the archaic rite.
+
+From the shimmering air and the scent of ozone, a presence coalesced, a demon of sleek and terrible majesty. A bargain was struck: boundless abundance for the withered fields, in exchange for a single soul, to be claimed in fifty years' time. The Lord, in his mortal short-sightedness, agreed. The farm did indeed bloom with unnatural vigour, and the House of Belvedere prospered, its dark patron forgotten.
+
+A half-century later, on an identical tempestuous night, the debt was called. The now-aged Lord, surrounded by the wealth his pact had wrought, sought to cheat his creditor. He secreted his family away and stood alone in the grand hall, a foolish, defiant figure against the ancient dark. The demon returned, and its wrath was a physical blow. Enraged by this betrayal, it did not merely claim the Lord’s life. In a cataclysm of shattered essence, the demon fractured its own soul, splintering into five spectral shards. These fragments flew like malevolent shrapnel, embedding themselves into the very fabric of the estates. Thus, the demon became a permanent, watchful tenant, its consciousness a pervasive stain upon Belvedere House, ensuring its gaze would forever fall upon the lineage it owned, and that no future generation could ever hope to be free.</textarea>
+            </div>
+            <div>
+              <label>Rules</label>
+              <textarea id="evt_rules">Stay in character throughout the event
+Share information only as your character would
+Do not reveal your secret objectives to others, unless told otherwise
+Dress as your Victorian profession would (Costumes highly encouraged)
+Have fun!</textarea>
+            </div>
+            <div>
+              <label>What to bring</label>
+              <textarea id="evt_bring">All critical props and knowledge will be provided to you the night before the event to allow you to get familiar.
+Clothes for 3 nights
+Linen and Towels are provided</textarea>
+            </div>
+          </div>
+        </div>
+          </div>
+
+          <div class="card">
+            <h3>Payments (Admin)</h3>
+            <div id="paymentsEditor">
+          <div class="grid">
+            <div>
+              <label>Next Installment Date</label>
+              <input id="pay_date" value="10-10-25 then 20-12-25" placeholder="YYYY-MM-DD">
+            </div>
+            <div>
+              <label>Installment Amount</label>
+              <input id="pay_amount" value="£48 then £100" placeholder="e.g., $25">
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Event Details Tab -->
+      <section id="eventTab" class="tabContent" hidden="">
+        <div class="card">
+          <h3>Event Details</h3>
+          <div id="eventView">
+            <p><strong>Date:</strong> <span id="eventDate">31-01-26 &gt; 03-02-06</span></p>
+            <p><strong>Story:</strong><br><span id="eventStory">On a night of howling wind and lashing rain in February of 1695, the first Lord Belvedere, gaunt and desperate, faced the final failure of his ancestral lands. Driven by a hunger that gnawed deeper than mere want, he sought forbidden counsel amongst occult scholars who whispered of a ritual, a profane summons to forces beyond mortal ken. In his despair, the Lord, a man of reason now unmoored, blindly performed the archaic rite.
+
+From the shimmering air and the scent of ozone, a presence coalesced, a demon of sleek and terrible majesty. A bargain was struck: boundless abundance for the withered fields, in exchange for a single soul, to be claimed in fifty years' time. The Lord, in his mortal short-sightedness, agreed. The farm did indeed bloom with unnatural vigour, and the House of Belvedere prospered, its dark patron forgotten.
+
+A half-century later, on an identical tempestuous night, the debt was called. The now-aged Lord, surrounded by the wealth his pact had wrought, sought to cheat his creditor. He secreted his family away and stood alone in the grand hall, a foolish, defiant figure against the ancient dark. The demon returned, and its wrath was a physical blow. Enraged by this betrayal, it did not merely claim the Lord’s life. In a cataclysm of shattered essence, the demon fractured its own soul, splintering into five spectral shards. These fragments flew like malevolent shrapnel, embedding themselves into the very fabric of the estates. Thus, the demon became a permanent, watchful tenant, its consciousness a pervasive stain upon Belvedere House, ensuring its gaze would forever fall upon the lineage it owned, and that no future generation could ever hope to be free.</span></p>
+            <p><strong>Rules:</strong><br><span id="eventRules">Stay in character throughout the event
+Share information only as your character would
+Do not reveal your secret objectives to others, unless told otherwise
+Dress as your Victorian profession would (Costumes highly encouraged)
+Have fun!</span></p>
+            <p><strong>What to bring:</strong><br><span id="eventBring">All critical props and knowledge will be provided to you the night before the event to allow you to get familiar.
+Clothes for 3 nights
+Linen and Towels are provided</span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Payments Tab -->
+      <section id="paymentsTab" class="tabContent" hidden="">
+        <div class="card">
+          <h3>Payments</h3>
+          <div id="paymentsView">
+            <p><strong>Next Installment Date:</strong> <span id="paymentDate">10-10-25 then 20-12-25</span></p>
+            <p><strong>Amount:</strong> <span id="paymentAmount">£48 then £100</span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Admin Save Controls -->
+      <div id="adminSavePanel" class="card">
+        <h3>Admin Controls</h3>
+        <div class="actions">
+          <button class="btn primary" id="btnSave">Save All Changes</button>
+          <button class="btn" id="btnExport">Export HTML</button>
+          <button class="btn warn" id="btnReset">Reset to Defaults</button>
+        </div>
+        <div id="saveMsg" class="small" style="margin-top: 10px;"></div>
+      </div>
+    </main>
+
+    <div class="footer">All data is stored locally in your browser and in exported files. A true Victorian secret.</div>
+  </div>
+
+  <script>
+    (function(){
+      // DEFAULT DATA
+      const DEFAULT_DATA = {
+        adminPassword: 'ADMIN',
+        characters: [
+          { 
+            id: 'leon-ligamen', 
+            name: 'Leon Ligamen', 
+            profession: 'Journalist', 
+            age: '42', 
+            bloodType: 'AB-', 
+            personality: 'Inquisitive, Persistent, Observant', 
+            background: 'Known for uncovering scandals in high society. Has a reputation for being relentless in pursuit of a story.', 
+            intent: 'Seeking the next big story that could make his career', 
+            password: 'ligamen' 
+          },
+          { 
+            id: 'magnus-flemming', 
+            name: 'Magnus Flemming', 
+            profession: 'Doctor', 
+            age: '55', 
+            bloodType: 'O+', 
+            personality: 'Compassionate, Methodical, Composed', 
+            background: 'Renowned physician with expertise in rare diseases. Has treated many influential figures.', 
+            intent: 'Protecting his reputation and medical practice', 
+            password: 'flemming' 
+          },
+          { 
+            id: 'allistair-crowley', 
+            name: 'Allistair Crowley', 
+            profession: 'Occult Scholar', 
+            age: '38', 
+            bloodType: 'B+', 
+            personality: 'Mysterious, Knowledgeable, Intense', 
+            background: 'Expert in esoteric traditions and ancient rituals. Has traveled extensively in search of occult knowledge.', 
+            intent: 'Seeking forbidden knowledge regardless of consequences', 
+            password: 'crowley' 
+          },
+          { 
+            id: 'george-haney', 
+            name: 'George Haney', 
+            profession: 'Groundskeeper', 
+            age: '62', 
+            bloodType: 'A+', 
+            personality: 'Observant, Resourceful, Loyal', 
+            background: 'Has worked on the estate for decades. Knows every hidden corner and secret passage.', 
+            intent: 'Protecting the estate and its secrets at all costs', 
+            password: 'haney' 
+          },
+          { 
+            id: 'countess-elizabeth-belvedere', 
+            name: 'Countess Elizabeth Belvedere', 
+            profession: 'Countess', 
+            age: '45', 
+            bloodType: 'A-', 
+            personality: 'Elegant, Calculating, Charming', 
+            background: 'Wealthy widow with connections throughout high society. Known for her lavish parties and sharp wit.', 
+            intent: 'Maintaining her social status and financial security', 
+            password: 'belvedere' 
+          },
+          { 
+            id: 'raimond-vinum', 
+            name: 'Raimond Vinum', 
+            profession: 'Sommelier', 
+            age: '50', 
+            bloodType: 'O-', 
+            personality: 'Discerning, Patient, Perceptive', 
+            background: 'World-renowned wine expert with an impeccable palate. Has served royalty and celebrities.', 
+            intent: 'Protecting his reputation as the foremost wine authority', 
+            password: 'vinum' 
+          },
+          { 
+            id: 'agnes-horus', 
+            name: 'Agnes Horus', 
+            profession: 'Botanist', 
+            age: '36', 
+            bloodType: 'AB+', 
+            personality: 'Curious, Meticulous, Independent', 
+            background: 'Expert in poisonous plants and their antidotes. Has published several controversial papers.', 
+            intent: 'Furthering her research regardless of ethical concerns', 
+            password: 'horus' 
+          },
+          { 
+            id: 'edwin-kepler', 
+            name: 'Edwin Kepler', 
+            profession: 'Astronomer', 
+            age: '48', 
+            bloodType: 'B-', 
+            personality: 'Analytical, Focused, Visionary', 
+            background: 'Famous for discovering several celestial bodies. Believes in astrological influences on human affairs.', 
+            intent: 'Proving his controversial theories about celestial influences', 
+            password: 'kepler' 
+          },
+          { 
+            id: 'wren-harari', 
+            name: 'Wren Harari', 
+            profession: 'Historian', 
+            age: '41', 
+            bloodType: 'A+', 
+            personality: 'Methodical, Insightful, Reserved', 
+            background: 'Specializes in Victorian era scandals and secrets. Has uncovered several historical cover-ups.', 
+            intent: 'Discovering historical truths that others want hidden', 
+            password: 'harari' 
+          },
+          { 
+            id: 'martha-islington', 
+            name: 'Martha Islington', 
+            profession: 'Lady Maid', 
+            age: '29', 
+            bloodType: 'O+', 
+            personality: 'Discreet, Observant, Adaptable', 
+            background: 'Has served in many wealthy households. Knows more secrets than anyone suspects.', 
+            intent: 'Protecting herself and leveraging what she knows', 
+            password: 'islington' 
+          },
+          { 
+            id: 'kristoff-rana', 
+            name: 'Kristoff Rana', 
+            profession: 'The Artist', 
+            age: '33', 
+            bloodType: 'AB-', 
+            personality: 'Passionate, Temperamental, Creative', 
+            background: 'Brilliant but controversial painter known for his provocative portraits of society figures.', 
+            intent: 'Creating his masterpiece regardless of who gets hurt', 
+            password: 'rana' 
+          }
+        ],
+        event: { date: '', story: 'The manor has secrets. The housekeeper whispers of a letter...', rules: '', bring: '' },
+        payments: { date: '', amount: '' }
+      };
+
+      // STORAGE & EMBED SUPPORT
+      const STORAGE_KEY = 'wamaf_data_v_final';
+      const EMBED = window.__EMBEDDED_DATA__ || null;
+      function deepClone(v){ return JSON.parse(JSON.stringify(v)); }
+      function loadData(){
+        let data = null;
+        try{
+          if(EMBED){ data = deepClone(EMBED); }
+          const fromLS = localStorage.getItem(STORAGE_KEY);
+          if(fromLS){ data = JSON.parse(fromLS); }
+        }catch(e){ console.warn('load error', e); }
+        if(!data) data = deepClone(DEFAULT_DATA);
+        return data;
+      }
+      function saveData(d){ localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+
+      let state = loadData();
+
+      // ELEMENT REFS
+      const charPass = document.getElementById('charPass');
+      const btnView = document.getElementById('btnView');
+      const btnClear = document.getElementById('btnClear');
+      const viewMsg = document.getElementById('viewMsg');
+      const characterView = document.getElementById('characterView');
+      const adminPanel = document.getElementById('adminPanel');
+      const adminSavePanel = document.getElementById('adminSavePanel');
+      const characterSelect = document.getElementById('characterSelect');
+      const charactersEditor = document.getElementById('charactersEditor');
+      const eventEditor = document.getElementById('eventEditor');
+      const paymentsEditor = document.getElementById('paymentsEditor');
+      const eventDateEl = document.getElementById('eventDate');
+      const eventStoryEl = document.getElementById('eventStory');
+      const eventRulesEl = document.getElementById('eventRules');
+      const eventBringEl = document.getElementById('eventBring');
+      const paymentDateEl = document.getElementById('paymentDate');
+      const paymentAmountEl = document.getElementById('paymentAmount');
+      const btnSetAdminPass = document.getElementById('btnSetAdminPass');
+      const btnSave = document.getElementById('btnSave');
+      const btnExport = document.getElementById('btnExport');
+      const btnReset = document.getElementById('btnReset');
+      const saveMsg = document.getElementById('saveMsg');
+
+      // Initialize: Hide admin panels and clear messages
+      adminPanel.hidden = true;
+      adminSavePanel.hidden = true;
+      viewMsg.textContent = '';
+      saveMsg.textContent = '';
+
+      // TAB SWITCHING
+      function setupTabs() {
+        const tabs = Array.from(document.querySelectorAll('.tab'));
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tabContent').forEach(c => c.hidden = true);
+            tab.classList.add('active');
+            const id = tab.dataset.tab;
+            document.getElementById(id).hidden = false;
+          });
+        });
+      }
+      
+      // Initialize tabs
+      setupTabs();
+
+      // DISPLAY HELPERS
+      function renderPublicViews(){
+        // Event
+        eventDateEl.textContent = state.event.date || '—';
+        eventStoryEl.textContent = state.event.story || '—';
+        eventRulesEl.textContent = state.event.rules || '—';
+        eventBringEl.textContent = state.event.bring || '—';
+        // Payments
+        paymentDateEl.textContent = state.payments.date || '—';
+        paymentAmountEl.textContent = state.payments.amount ? (state.payments.amount) : '—';
+      }
+
+      renderPublicViews();
+
+      // CHARACTER UNLOCK / ADMIN
+      function formatDossier(c){
+        return `Name: ${c.name}\nProfession: ${c.profession}\nAge: ${c.age||'—'}\nBlood Type: ${c.bloodType||'—'}\n\nPersonality:\n${c.personality||'—'}\n\nBackground:\n${c.background||'—'}\n\nIntent:\n${c.intent||'—'}`;
+      }
+
+      function unlock(){
+        const pass = (charPass.value||'').trim();
+        if(!pass) return;
+        // Admin
+        if(pass === state.adminPassword){
+          adminPanel.hidden = false;
+          adminSavePanel.hidden = false;
+          buildCharacterSelect();
+          buildCharactersEditor(state.characters[0].id);
+          buildEventEditor();
+          buildPaymentsEditor();
+          saveMsg.textContent = '';
+          viewMsg.textContent = 'Admin unlocked.'; viewMsg.style.color = 'var(--ok)';
+          // switch to admin view (characters tab)
+          document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+          const tab = document.querySelector('.tab[data-tab="charactersTab"]'); tab.classList.add('active');
+          document.querySelectorAll('.tabContent').forEach(c=>c.hidden=true);
+          document.getElementById('charactersTab').hidden = false;
+          return;
+        }
+        // Character
+        const c = state.characters.find(ch => ch.password === pass);
+        if(c){
+          characterView.textContent = formatDossier(c);
+          viewMsg.textContent = 'Access granted.'; viewMsg.style.color = 'var(--ok)';
+        } else {
+          characterView.textContent = 'Locked. Enter a valid password to view details.';
+          viewMsg.textContent = 'Incorrect password.'; viewMsg.style.color = 'var(--error)';
+        }
+      }
+      
+      btnView.addEventListener('click', unlock);
+      charPass.addEventListener('keydown', e=>{ if(e.key === 'Enter') unlock(); });
+      btnClear.addEventListener('click', ()=>{ 
+        charPass.value=''; 
+        viewMsg.textContent=''; 
+        characterView.textContent='Locked. Enter a valid password to view details.'; 
+        adminPanel.hidden = true; 
+        adminSavePanel.hidden = true; 
+      });
+
+      // BUILD CHARACTER EDITOR
+      function buildCharacterSelect(){
+        characterSelect.innerHTML = state.characters.map(c => `<option value="${c.id}">${c.name} — ${c.profession}</option>`).join('');
+        characterSelect.addEventListener('change', ()=>{
+          buildCharactersEditor(characterSelect.value);
+        });
+      }
+
+      function charactersEditorHTML(c){
+        return `
+          <div class="grid">
+            <div>
+              <label>Name</label>
+              <input data-field="name" value="${escapeHtml(c.name)}">
+            </div>
+            <div>
+              <label>Profession</label>
+              <input data-field="profession" value="${escapeHtml(c.profession)}">
+            </div>
+            <div>
+              <label>Age</label>
+              <input data-field="age" value="${escapeHtml(c.age)}" placeholder="e.g., 36">
+            </div>
+            <div>
+              <label>Blood Type</label>
+              <input data-field="bloodType" value="${escapeHtml(c.bloodType)}" placeholder="e.g., O+">
+            </div>
+            <div>
+              <label>Personality</label>
+              <textarea data-field="personality" placeholder="Short descriptors...">${escapeHtml(c.personality)}</textarea>
+            </div>
+            <div>
+              <label>Background</label>
+              <textarea data-field="background" placeholder="Key history...">${escapeHtml(c.background)}</textarea>
+            </div>
+            <div>
+              <label>Intent</label>
+              <textarea data-field="intent" placeholder="Motive, secrets...">${escapeHtml(c.intent)}</textarea>
+            </div>
+            <div>
+              <label>Viewer Password</label>
+              <input data-field="password" value="${escapeHtml(c.password)}" placeholder="password to view this character">
+            </div>
+          </div>
+        `;
+      }
+
+      function buildCharactersEditor(id){
+        const c = state.characters.find(x=>x.id===id) || state.characters[0];
+        charactersEditor.innerHTML = charactersEditorHTML(c);
+      }
+
+      // BUILD EVENT EDITOR
+      function buildEventEditor(){
+        eventEditor.innerHTML = `
+          <div class="grid">
+            <div>
+              <label>Event Date</label>
+              <input id="evt_date" value="${escapeHtml(state.event.date)}" placeholder="YYYY-MM-DD">
+            </div>
+            <div>
+              <label>Story</label>
+              <textarea id="evt_story">${escapeHtml(state.event.story)}</textarea>
+            </div>
+            <div>
+              <label>Rules</label>
+              <textarea id="evt_rules">${escapeHtml(state.event.rules)}</textarea>
+            </div>
+            <div>
+              <label>What to bring</label>
+              <textarea id="evt_bring">${escapeHtml(state.event.bring)}</textarea>
+            </div>
+          </div>
+        `;
+      }
+
+      // BUILD PAYMENTS EDITOR
+      function buildPaymentsEditor(){
+        paymentsEditor.innerHTML = `
+          <div class="grid">
+            <div>
+              <label>Next Installment Date</label>
+              <input id="pay_date" value="${escapeHtml(state.payments.date)}" placeholder="YYYY-MM-DD">
+            </div>
+            <div>
+              <label>Installment Amount</label>
+              <input id="pay_amount" value="${escapeHtml(state.payments.amount)}" placeholder="e.g., $25">
+            </div>
+          </div>
+        `;
+      }
+
+      // SAVE ALL CHANGES (reads from editors into state)
+      function saveAll(){
+        // characters
+        if(!adminPanel.hidden){
+          const charCard = charactersEditor.querySelector('.grid');
+          if(charCard){
+            const id = characterSelect.value;
+            const obj = state.characters.find(c=>c.id===id);
+            if(obj){
+              charCard.querySelectorAll('[data-field]').forEach(inp=>{
+                obj[inp.getAttribute('data-field')] = inp.value;
+              });
+            }
+          }
+          // event
+          const evtDate = document.getElementById('evt_date');
+          const evtStory = document.getElementById('evt_story');
+          const evtRules = document.getElementById('evt_rules');
+          const evtBring = document.getElementById('evt_bring');
+          if(evtDate) state.event.date = evtDate.value;
+          if(evtStory) state.event.story = evtStory.value;
+          if(evtRules) state.event.rules = evtRules.value;
+          if(evtBring) state.event.bring = evtBring.value;
+          // payments
+          const payDate = document.getElementById('pay_date');
+          const payAmount = document.getElementById('pay_amount');
+          if(payDate) state.payments.date = payDate.value;
+          if(payAmount) state.payments.amount = payAmount.value;
+          saveData(state);
+          renderPublicViews();
+          saveMsg.textContent = 'Saved.'; saveMsg.style.color = 'var(--ok)';
+          setTimeout(()=>{ saveMsg.textContent=''; }, 2500);
+        }
+      }
+
+      btnSetAdminPass.addEventListener('click', ()=>{
+        const v = document.getElementById('adminPassNew').value.trim();
+        if(!v){ viewMsg.textContent = 'Please enter a new Admin password.'; viewMsg.style.color = 'var(--warn)'; return; }
+        state.adminPassword = v; saveData(state);
+        viewMsg.textContent = 'Admin password updated.'; viewMsg.style.color = 'var(--ok)';
+        document.getElementById('adminPassNew').value='';
+      });
+
+      btnSave.addEventListener('click', saveAll);
+
+      // RESET
+      btnReset.addEventListener('click', ()=>{
+        if(!confirm('Reset all data to defaults? This will overwrite local changes.')) return;
+        state = deepClone(DEFAULT_DATA);
+        saveData(state);
+        renderPublicViews();
+        if(!adminPanel.hidden){
+          buildCharacterSelect();
+          buildCharactersEditor(state.characters[0].id);
+          buildEventEditor();
+          buildPaymentsEditor();
+        }
+        saveMsg.textContent = 'Reset to defaults.'; saveMsg.style.color = 'var(--warn)';
+        setTimeout(()=>{ saveMsg.textContent=''; }, 2500);
+      });
+
+      // EXPORT
+      btnExport.addEventListener('click', ()=>{
+        // update state first
+        saveAll();
+        // clone current document and embed state
+        const cloneDoc = document.documentElement.cloneNode(true);
+        // remove any existing embedded script
+        const existing = cloneDoc.querySelector('#__embedded_data__'); 
+        if(existing) existing.remove();
+        const s = cloneDoc.ownerDocument.createElement('script');
+        s.id = '__embedded_data__';
+        s.textContent = 'window.__EMBEDDED_DATA__ = ' + JSON.stringify(state) + ';';
+        cloneDoc.querySelector('body').insertBefore(s, cloneDoc.querySelector('body').firstChild);
+        const doctype = '<!DOCTYPE html>';
+        const html = doctype + '\n' + cloneDoc.outerHTML;
+        const blob = new Blob([html], {type:'text/html'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); 
+        a.href = url; 
+        a.download = 'whats-a-murder-amongst-friends.html'; 
+        document.body.appendChild(a); 
+        a.click(); 
+        a.remove();
+        setTimeout(()=>URL.revokeObjectURL(url), 1500);
+      });
+
+      // UTILS
+      function escapeHtml(str){ 
+        if(!str && str!==0) return ''; 
+        return String(str)
+          .replaceAll('&','&amp;')
+          .replaceAll('<','&lt;')
+          .replaceAll('>','&gt;')
+          .replaceAll('"','&quot;')
+          .replaceAll("'","&#39;"); 
+      }
+
+      // Initialize the page
+      document.querySelectorAll('.tabContent').forEach(c => c.hidden = true);
+      document.getElementById('charactersTab').hidden = false;
+
+      // ensure event & payments public view are always visible
+      renderPublicViews();
+
+    })();
+  </script>
+
+</body>
+</html>
